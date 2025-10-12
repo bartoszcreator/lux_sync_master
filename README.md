@@ -1,4 +1,8 @@
+![Downloads](https://img.shields.io/github/downloads/bartoszcreator/lux_sync_master/v1.0.0/total?label=Downloads)
+![Release](https://img.shields.io/github/v/release/bartoszcreator/lux_sync_master?display_name=tag)
+
 # LUX_SYNC_MASTER
+ LUX_SYNC_MASTER
 
 Founder's Edition — publiczny release + checksum (SHA-256).
 ## Integrity & Verification
