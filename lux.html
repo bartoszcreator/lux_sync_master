@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUX-0 INTERPRETER</title>
+    <style>
+        /* --- LUX-0 CYBERPUNK THEME --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
+
+        :root {
+            --bg-main: #050505;
+            --bg-panel: #0a0f14;
+            --accent: #00f3ff;
+            --text-bright: #e0e6ed;
+            --text-dim: #5c6773;
+            --grid-line: rgba(0, 243, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: var(--bg-main);
+            color: var(--text-bright);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        h1 { 
+            text-align: center; text-transform: uppercase; letter-spacing: 3px; 
+            margin: 10px 0; color: var(--text-bright); 
+            text-shadow: 0 0 20px rgba(255,255,255,0.1); 
+        }
+
+        h2 {
+            text-align: center; text-transform: uppercase; letter-spacing: 2px;
+            font-size: 0.8rem; color: var(--text-dim);
+            border-bottom: 1px solid var(--grid-line); padding-bottom: 20px; margin-bottom: 20px;
+        }
+
+        .card {
+            background: var(--bg-panel); border: 1px solid var(--grid-line);
+            border-radius: 6px; padding: 20px; position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5); overflow: hidden; 
+        }
+
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.5;
+        }
+
+        h3 { margin-top: 0; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+
+        input[type="text"] {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--text-dim);
+            color: var(--accent); padding: 12px; font-family: 'Fira Code', monospace; font-size: 1rem;
+            border-radius: 4px; box-sizing: border-box;
+        }
+        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
+
+        button {
+            background: var(--bg-panel); border: 1px solid var(--accent); color: var(--accent);
+            padding: 10px 20px; font-family: 'Fira Code', monospace; cursor: pointer;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; margin-right: 5px;
+        }
+        button:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
+
+        #timeline, #frames, #letters, #word, #classifier, #seqPanel, #actionPanel, #inputInfo {
+            font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.6;
+            color: var(--text-bright); word-wrap: break-word; word-break: break-all;
+        }
+        
+        #timeline { letter-spacing: 3px; color: var(--text-dim); font-size: 0.7rem; }
+        .bit-group { color: var(--accent); margin-right: 10px; }
+        .decode-row { border-bottom: 1px dashed #222; padding: 2px 0; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1>LUX-0 INTERPRETER</h1>
+    <h2>DASHBOARD • BIT → FRAME → LETTER → WORD → ACTION • SEQ</h2>
+
+    <div class="card">
+        <h3>Input Stream</h3>
+        <input type="text" id="mainInput" placeholder="Wpisz ciąg znaków..." oninput="processInput()">
+        <br>
+        <button onclick="processAsBits()">JAKO BITY</button>
+        <button onclick="processAsWord()">JAKO SŁOWO</button>
+        <div id="inputInfo" style="margin-top:10px; font-size: 0.8rem; color: #888;"></div>
+    </div>
+
+    <div class="card"><h3>Bit Timeline</h3><div id="timeline"></div></div>
+    <div class="card"><h3>Frame Analyzer (5 bitów)</h3><div id="frames"></div></div>
+    <div class="card"><h3>Letter Decoder</h3><div id="letters"></div></div>
+    <div class="card"><h3>Word Builder</h3><div id="word" style="font-size: 1.2rem; font-weight: bold;"></div></div>
+    
+    <div class="card">
+        <h3>Action & Effect</h3>
+        <div id="actionPanel">OCZEKIWANIE NA DANE...</div>
+    </div>
+</div>
+
+<script>
+    const letterToBits = {
+        'a': '00000', 'b': '10010', 'c': '10011', 'd': '01001', 'e': '00001', 'f': '01000', 
+        'g': '01111', 'h': '10001', 'i': '00010', 'j': '10110', 'k': '01011', 'l': '00111',
+        'm': '01100', 'n': '01001', 'o': '10101', 'p': '10111', 'r': '00101', 's': '00110', 
+        't': '01000', 'u': '01101', 'w': '11001', 'y': '01000', 'z': '11001', ' ': '11111'
+    };
+    const bitsToLetter = Object.fromEntries(Object.entries(letterToBits).map(([k, v]) => [v, k]));
+
+    function processInput() { }
+
+    function processAsWord() {
+        let text = document.getElementById('mainInput').value.toLowerCase();
+        let bitStream = "";
+        for (let char of text) { if (letterToBits[char]) bitStream += letterToBits[char]; }
+        visualize(bitStream, text);
+    }
+
+    function processAsBits() {
+        let raw = document.getElementById('mainInput').value;
+        let bitStream = raw.replace(/[^01]/g, '');
+        let decodedText = "";
+        for (let i = 0; i < bitStream.length; i += 5) {
+            let frame = bitStream.substring(i, i+5);
+            if (frame.length === 5) decodedText += bitsToLetter[frame] ? bitsToLetter[frame] : "?";
+        }
+        visualize(bitStream, decodedText);
+    }
+
+    function visualize(bits, finalWord) {
+        document.getElementById('inputInfo').innerText = "Bity: " + bits;
+        document.getElementById('timeline').innerText = bits.split('').join(' ');
+        
+        let framesHTML = "";
+        for (let i = 0; i < bits.length; i += 5) framesHTML += `<span class="bit-group">${bits.substring(i, i+5)}</span> `;
+        document.getElementById('frames').innerHTML = framesHTML;
+
+        let lettersHTML = "";
+        for (let i = 0; i < bits.length; i += 5) {
+            let chunk = bits.substring(i, i+5);
+            if(chunk.length===5) lettersHTML += `<div class="decode-row"><span class="bit-group">${chunk}</span> → ${bitsToLetter[chunk]||"?"}</div>`;
+        }
+        document.getElementById('letters').innerHTML = lettersHTML;
+        document.getElementById('word').innerText = finalWord;
+        applySystemAction(finalWord);
+    }
+
+    function applySystemAction(finalWord) {
+        let panel = document.getElementById('actionPanel');
+        let body = document.body;
+        let actionText = "SYSTEM STANDBY";
+        let bgColor = "#050505";
+
+        if (finalWord === "light") {
+            actionText = "ACTION_LIGHT → SYSTEM ROZŚWIETLONY 💡";
+            bgColor = "#1a2634"; 
+        } else if (finalWord === "dark") {
+            actionText = "ACTION_DARK → WYGASZENIE 🌑";
+            bgColor = "#000000";
+        } else if (finalWord === "alert") {
+            actionText = "ACTION_ALERT → ALARM 🔴";
+            bgColor = "#3d0000";
+        }
+        panel.innerText = actionText;
+        body.style.backgroundColor = bgColor;
+    }
+</script>
+</body>
+</html>
