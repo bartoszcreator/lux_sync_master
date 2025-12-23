@@ -1,105 +1,226 @@
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUX INTERPRETER V7</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <title>LUX INTERPRETER V8</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #f7f9fc; --card-bg: #ffffff; --text-main: #1a1f36; --accent: #635bff; --accent-hover: #544dc9; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); display: flex; justify-content: center; padding-top: 60px; min-height: 100vh; margin: 0; }
-        .container { width: 100%; max-width: 600px; padding: 20px; }
+        :root { 
+            --bg-color: #f7f9fc; 
+            --card-bg: #ffffff; 
+            --accent: #635bff; 
+            --accent-hover: #544dc9;
+            --terminal-bg: #1a1f36;
+            --terminal-text: #a3acb9;
+            --bit-color: #00d4ff; /* Cyber Blue */
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh; 
+            margin: 0; 
+        }
+
+        .main-container { width: 100%; max-width: 700px; padding: 20px; }
+
+        /* SEKCJA 1: STRIPE ELEGANCE (Góra) */
+        .input-card { 
+            background: var(--card-bg); 
+            border-radius: 16px; 
+            padding: 40px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+            border: 1px solid #e3e8ee;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        h1 { font-size: 24px; font-weight: 600; color: #1a1f36; margin: 0 0 20px 0; letter-spacing: -0.5px; }
         
-        /* Karta Główna */
-        .card { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e3e8ee; }
-        h1 { font-size: 24px; font-weight: 600; margin-top: 0; margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-size: 13px; font-weight: 500; color: #697386; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e3e8ee; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        button { background-color: var(--accent); color: white; border: none; padding: 12px; border-radius: 6px; width: 100%; cursor: pointer; font-size: 16px; font-weight: 500; transition: 0.2s; }
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            font-size: 16px; 
+            border: 1px solid #e3e8ee; 
+            border-radius: 8px; 
+            outline: none; 
+            transition: 0.2s;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.1); }
+
+        button { 
+            background-color: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 8px; 
+            width: 100%; 
+            font-weight: 600; 
+            font-size: 15px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
         button:hover { background-color: var(--accent-hover); transform: translateY(-1px); }
 
-        /* Konsola Logów (To przywraca "życie") */
-        .console-window {
-            margin-top: 20px;
-            background: #1a1f36; /* Ciemne tło */
-            color: #4cd964; /* Zielony terminalowy */
-            padding: 15px;
-            border-radius: 8px;
+        /* SEKCJA 2: VISUAL CORE (Dół - Twoje Bity) */
+        .terminal-card {
+            background: var(--terminal-bg);
+            border-radius: 12px;
+            padding: 30px;
+            color: var(--terminal-text);
             font-family: 'JetBrains Mono', monospace;
             font-size: 13px;
-            height: 150px;
-            overflow-y: auto;
             border: 1px solid #3c4257;
-            display: none; /* Ukryte na początku */
+            opacity: 0.5; /* Na początku przygaszone */
+            transform: scale(0.98);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .log-line { margin: 5px 0; border-bottom: 1px dashed #333; padding-bottom: 2px; }
-        .blink { animation: blinker 1s linear infinite; }
-        @keyframes blinker { 50% { opacity: 0; } }
+        
+        .terminal-card.active {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border-color: var(--accent);
+        }
+
+        .data-stream {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+        .label { color: #697386; }
+        .value { color: #fff; }
+        
+        .bits-display {
+            margin-top: 15px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--bit-color);
+            word-break: break-all;
+            min-height: 40px;
+        }
+
+        .status-line { margin-top: 15px; color: #3ecf8e; display: none; }
+        
+        /* Dekoracja */
+        .light { position: absolute; top: 20px; right: 20px; width: 8px; height: 8px; border-radius: 50%; background: #eb5757; transition: 0.3s; }
+        .light.on { background: #3ecf8e; box-shadow: 0 0 10px #3ecf8e; }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <h1>LUX INTERPRETER</h1>
-        <p style="color: #697386; font-size: 14px; margin-bottom: 20px;">Wprowadź komendę dla systemu n8n.</p>
+<div class="main-container">
+    <div class="input-card">
+        <h1>LUX INTERPRETER <span style="font-size: 14px; color: #697386; font-weight: 400;">// V8 Core</span></h1>
         
-        <input type="text" id="commandInput" placeholder="np. start, generuj, raport...">
-        <button onclick="runProcess()">URUCHOM PROCES</button>
+        <div class="input-group">
+            <label>Wprowadź Instrukcję (Prompt)</label>
+            <input type="text" id="commandInput" placeholder="np. start, generuj obraz...">
+        </div>
+        
+        <button onclick="executeProtocol()">URUCHOM PROCES</button>
+    </div>
 
-        <div id="console" class="console-window"></div>
+    <div class="terminal-card" id="terminal">
+        <div class="light" id="statusLight"></div>
+        <div class="data-stream">
+            <div class="row">
+                <span class="label">STAN PROCESORA</span>
+                <span class="value" id="cpuStatus">IDLE</span>
+            </div>
+            <div class="row">
+                <span class="label">POŁĄCZENIE (n8n)</span>
+                <span class="value" id="connStatus">OCZEKIWANIE</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; font-size: 11px; color: #697386;">STRUMIEŃ BINARNY:</div>
+        <div class="bits-display" id="bitStream">...</div>
+        
+        <div class="status-line" id="finalStatus">
+            > DANE WYSŁANE POMYŚLNIE.
+        </div>
     </div>
 </div>
 
 <script>
     const WEBHOOK_URL = "http://172.86.70.47:5678/webhook-test/lux";
-    const consoleDiv = document.getElementById('console');
-
-    function log(message) {
-        consoleDiv.style.display = 'block';
-        const line = document.createElement('div');
-        line.className = 'log-line';
-        // Dodajemy czas
-        const time = new Date().toLocaleTimeString('pl-PL');
-        line.innerHTML = `<span style="opacity:0.6">[${time}]</span> ${message}`;
-        consoleDiv.appendChild(line);
-        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    
+    // Funkcja zamieniająca tekst na bity (Twoje ramki)
+    function textToBinary(string) {
+        return string.split('').map(function (char) {
+            return char.charCodeAt(0).toString(2).padStart(8, '0');
+        }).join(' ');
     }
 
-    async function runProcess() {
-        const cmd = document.getElementById('commandInput').value;
-        if(!cmd) return alert("Wpisz komendę!");
-
-        // 1. Symulacja "myślenia" maszyny (Efekty wizualne)
-        consoleDiv.innerHTML = ''; // Czyść konsolę
-        log("Inicjalizacja protokołu LUX...");
+    async function executeProtocol() {
+        const input = document.getElementById('commandInput').value;
+        const terminal = document.getElementById('terminal');
+        const bitStream = document.getElementById('bitStream');
+        const cpu = document.getElementById('cpuStatus');
+        const light = document.getElementById('statusLight');
         
-        setTimeout(() => log(`Analiza składni: "${cmd}"...`), 600);
-        setTimeout(() => log("Szyfrowanie pakietu danych..."), 1200);
-        setTimeout(() => log("Nawiązywanie połączenia z węzłem Frankfurt..."), 1800);
+        if(!input) return alert("Wpisz komendę!");
 
-        // 2. Prawdziwe wysłanie (To co działa w V6)
-        setTimeout(async () => {
-            log("WYSYŁANIE PAKIETU DO N8N >>");
+        // 1. Aktywacja wizualna (Ożywamy)
+        terminal.classList.add('active');
+        light.classList.add('on');
+        cpu.innerText = "PRZETWARZANIE...";
+        cpu.style.color = "#f7b955"; // Orange
+
+        // 2. Efekt "Matrixa" (Generowanie bitów)
+        let bits = textToBinary(input);
+        bitStream.innerText = "";
+        
+        // Symulacja pisania bitów
+        let i = 0;
+        let interval = setInterval(() => {
+            bitStream.innerText += bits.charAt(i);
+            i++;
+            if (i >= bits.length) clearInterval(interval);
+        }, 10); // Prędkość bitów
+
+        // 3. Prawdziwa wysyłka (bez czekania na koniec animacji)
+        document.getElementById('connStatus').innerText = "ŁĄCZENIE...";
+        
+        const data = new URLSearchParams();
+        data.append("command", input);
+        data.append("timestamp", new Date().toISOString());
+
+        try {
+            await fetch(WEBHOOK_URL, {
+                method: "POST",
+                mode: "no-cors", 
+                body: data
+            });
             
-            const data = new URLSearchParams();
-            data.append("command", cmd);
-            data.append("timestamp", new Date().toISOString());
-
-            try {
-                await fetch(WEBHOOK_URL, {
-                    method: "POST",
-                    mode: "no-cors", 
-                    body: data
-                });
-                // Sukces wizualny
-                setTimeout(() => log("✅ <span style='color:#fff'>POTWIERDZONO: n8n odebrał dane.</span>"), 500);
-                setTimeout(() => log("System w stanie czuwania."), 1500);
-            } catch (e) {
-                log("❌ BŁĄD KRYTYCZNY: " + e.message);
-            }
-        }, 2500);
+            // 4. Sukces
+            setTimeout(() => {
+                document.getElementById('connStatus').innerText = "POŁĄCZONO [200 OK]";
+                document.getElementById('connStatus').style.color = "#3ecf8e";
+                cpu.innerText = "UKOŃCZONO";
+                cpu.style.color = "#3ecf8e";
+                document.getElementById('finalStatus').style.display = "block";
+            }, 1000);
+            
+        } catch (e) {
+            document.getElementById('connStatus').innerText = "BŁĄD POŁĄCZENIA";
+            document.getElementById('connStatus').style.color = "#ff4d4d";
+        }
     }
 </script>
 
