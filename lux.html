@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUX-0 INTERPRETER</title>
+    <title>LUX-0 TACTICAL</title>
     <style>
-        /* --- LUX-0 CYBERPUNK THEME --- */
+        /* --- LUX-0 V3 TACTICAL THEME --- */
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
 
         :root {
             --bg-main: #050505;
-            --bg-panel: #0a0f14;
+            --bg-panel: #0e1217;
             --accent: #00f3ff;
-            --text-bright: #e0e6ed;
-            --text-dim: #5c6773;
-            --grid-line: rgba(0, 243, 255, 0.08);
+            --accent-dim: rgba(0, 243, 255, 0.15);
+            --text-bright: #e6edf3;
+            --text-dim: #7d8590;
+            --border: #30363d;
         }
 
         body {
@@ -26,87 +27,128 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
+            align-items: center;
         }
 
         .wrap {
             width: 100%;
-            max-width: 1100px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+            max-width: 950px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         h1 { 
-            text-align: center; text-transform: uppercase; letter-spacing: 3px; 
-            margin: 10px 0; color: var(--text-bright); 
-            text-shadow: 0 0 20px rgba(255,255,255,0.1); 
+            text-align: center; 
+            font-size: 1.5rem; 
+            margin: 0;
+            letter-spacing: 4px;
+            color: var(--text-bright);
+            text-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
 
         h2 {
-            text-align: center; text-transform: uppercase; letter-spacing: 2px;
-            font-size: 0.8rem; color: var(--text-dim);
-            border-bottom: 1px solid var(--grid-line); padding-bottom: 20px; margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grid-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .card {
-            background: var(--bg-panel); border: 1px solid var(--grid-line);
-            border-radius: 6px; padding: 20px; position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5); overflow: hidden; 
-        }
-
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.5;
-        }
-
-        h3 { margin-top: 0; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
-
-        input[type="text"] {
-            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--text-dim);
-            color: var(--accent); padding: 12px; font-family: 'Fira Code', monospace; font-size: 1rem;
-            border-radius: 4px; box-sizing: border-box;
-        }
-        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
-
-        button {
-            background: var(--bg-panel); border: 1px solid var(--accent); color: var(--accent);
-            padding: 10px 20px; font-family: 'Fira Code', monospace; cursor: pointer;
-            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; margin-right: 5px;
-        }
-        button:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
-
-        #timeline, #frames, #letters, #word, #classifier, #seqPanel, #actionPanel, #inputInfo {
-            font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.6;
-            color: var(--text-bright); word-wrap: break-word; word-break: break-all;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         
-        #timeline { letter-spacing: 3px; color: var(--text-dim); font-size: 0.7rem; }
-        .bit-group { color: var(--accent); margin-right: 10px; }
-        .decode-row { border-bottom: 1px dashed #222; padding: 2px 0; color: var(--text-dim); }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+            background: var(--accent); opacity: 0.7;
+        }
+
+        h3 { margin-top: 0; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 5px;}
+
+        input[type="text"] {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--border);
+            color: var(--accent);
+            padding: 10px 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-dim); }
+
+        button {
+            background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim);
+            padding: 8px 16px; font-family: 'Fira Code', monospace; cursor: pointer;
+            font-size: 0.7rem; margin-top: 10px; margin-right: 5px; transition: 0.2s;
+        }
+        button:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+        .data-display {
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: var(--text-dim);
+            word-break: break-all;
+        }
+        
+        .bit-group { color: var(--accent); margin-right: 8px; }
+        #word { font-size: 1.4rem; color: #fff; font-weight: bold; margin-top: 5px;}
+        
+        #actionPanel { 
+            font-size: 0.9rem; 
+            color: var(--accent); 
+            letter-spacing: 1px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-<div class="wrap">
-    <h1>LUX-0 INTERPRETER</h1>
-    <h2>DASHBOARD • BIT → FRAME → LETTER → WORD → ACTION • SEQ</h2>
 
-    <div class="card">
-        <h3>Input Stream</h3>
-        <input type="text" id="mainInput" placeholder="Wpisz ciąg znaków..." oninput="processInput()">
-        <br>
-        <button onclick="processAsBits()">JAKO BITY</button>
-        <button onclick="processAsWord()">JAKO SŁOWO</button>
-        <div id="inputInfo" style="margin-top:10px; font-size: 0.8rem; color: #888;"></div>
+<div class="wrap">
+    <div>
+        <h1>LUX-0 SYSTEM</h1>
+        <h2>COMPACT TACTICAL INTERFACE • V3</h2>
     </div>
 
-    <div class="card"><h3>Bit Timeline</h3><div id="timeline"></div></div>
-    <div class="card"><h3>Frame Analyzer (5 bitów)</h3><div id="frames"></div></div>
-    <div class="card"><h3>Letter Decoder</h3><div id="letters"></div></div>
-    <div class="card"><h3>Word Builder</h3><div id="word" style="font-size: 1.2rem; font-weight: bold;"></div></div>
-    
     <div class="card">
-        <h3>Action & Effect</h3>
-        <div id="actionPanel">OCZEKIWANIE NA DANE...</div>
+        <h3>Input / Komenda</h3>
+        <input type="text" id="mainInput" placeholder="Wpisz polecenie..." oninput="processInput()" autofocus>
+        <button onclick="processAsBits()">JAKO BITY</button>
+        <button onclick="processAsWord()">JAKO SŁOWO</button>
+    </div>
+
+    <div class="grid-row">
+        <div class="card">
+            <h3>Stream Analiza</h3>
+            <div class="data-display" id="timeline">Oczekiwanie na dane...</div>
+            <div style="margin-top:15px; font-size: 0.7rem; color: #555;">FRAMES (5-bit):</div>
+            <div class="data-display" id="frames" style="color: var(--text-bright);">...</div>
+        </div>
+
+        <div class="card">
+            <h3>Dekoder / Wynik</h3>
+            <div id="word">...</div>
+            <div style="margin-top:10px; border-top: 1px dashed #333; padding-top:5px;" class="data-display" id="letters"></div>
+        </div>
+    </div>
+
+    <div class="card" id="statusCard">
+        <h3>System Status</h3>
+        <div id="actionPanel">STANDBY</div>
     </div>
 </div>
 
@@ -140,7 +182,6 @@
     }
 
     function visualize(bits, finalWord) {
-        document.getElementById('inputInfo').innerText = "Bity: " + bits;
         document.getElementById('timeline').innerText = bits.split('').join(' ');
         
         let framesHTML = "";
@@ -150,7 +191,7 @@
         let lettersHTML = "";
         for (let i = 0; i < bits.length; i += 5) {
             let chunk = bits.substring(i, i+5);
-            if(chunk.length===5) lettersHTML += `<div class="decode-row"><span class="bit-group">${chunk}</span> → ${bitsToLetter[chunk]||"?"}</div>`;
+            if(chunk.length===5) lettersHTML += `<span>${bitsToLetter[chunk]||"?"}</span> `;
         }
         document.getElementById('letters').innerHTML = lettersHTML;
         document.getElementById('word').innerText = finalWord;
@@ -159,22 +200,32 @@
 
     function applySystemAction(finalWord) {
         let panel = document.getElementById('actionPanel');
+        let card = document.getElementById('statusCard');
         let body = document.body;
-        let actionText = "SYSTEM STANDBY";
+        let actionText = "STANDBY";
         let bgColor = "#050505";
+        let borderColor = "#30363d";
 
         if (finalWord === "light") {
-            actionText = "ACTION_LIGHT → SYSTEM ROZŚWIETLONY 💡";
-            bgColor = "#1a2634"; 
+            actionText = ">>> SYSTEM ROZŚWIETLONY <<<";
+            bgColor = "#151b23"; 
+            borderColor = "#fff";
         } else if (finalWord === "dark") {
-            actionText = "ACTION_DARK → WYGASZENIE 🌑";
-            bgColor = "#000000";
+            actionText = ">>> PROTOKÓŁ CIEMNOŚCI <<<";
+            bgColor = "#000";
+            borderColor = "#333";
         } else if (finalWord === "alert") {
-            actionText = "ACTION_ALERT → ALARM 🔴";
-            bgColor = "#3d0000";
+            actionText = "!!! ALARM !!!";
+            bgColor = "#2a0000";
+            borderColor = "red";
+        } else if (finalWord.includes("?")) {
+            actionText = "BŁĄD: NIEZNANA SEKWENCJA";
+        } else {
+            actionText = "PRZETWARZANIE ZAKOŃCZONE";
         }
         panel.innerText = actionText;
         body.style.backgroundColor = bgColor;
+        card.style.borderColor = borderColor;
     }
 </script>
 </body>
