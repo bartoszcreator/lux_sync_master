@@ -3,218 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creator Studio</title>
+    <title>LUX INTERPRETER V6</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #f7f9fc;
-            --card-bg: #ffffff;
-            --text-main: #1a1f36;
-            --text-sub: #697386;
-            --accent: #635bff; /* Stripe Blurple */
-            --accent-hover: #544dc9;
-            --border: #e3e8ee;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            padding: 60px 20px;
-        }
-
-        header {
-            margin-bottom: 40px;
-            text-align: left;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin: 0 0 10px 0;
-            color: var(--text-main);
-        }
-
-        p.subtitle {
-            color: var(--text-sub);
-            margin: 0;
-            font-size: 16px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            padding: 40px;
-            margin-bottom: 24px;
-            border: 1px solid var(--border);
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            box-sizing: border-box;
-        }
-
-        input[type="text"]:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.15);
-        }
-
-        button.primary-btn {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            width: 100%;
-        }
-
-        button.primary-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .status-area {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            color: var(--text-sub);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #e3e8ee;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .status-indicator.active { background-color: #3ecf8e; } /* Green */
-        .status-indicator.processing { background-color: #f7b955; } /* Orange */
-
-        /* Placeholder na przyszły upload plików */
-        .upload-placeholder {
-            border: 2px dashed var(--border);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            color: var(--text-sub);
-            background: #fcfcfd;
-            cursor: not-allowed; /* Na razie nieaktywne */
-        }
+        :root { --bg-color: #f7f9fc; --card-bg: #ffffff; --text-main: #1a1f36; --text-sub: #697386; --accent: #635bff; --accent-hover: #544dc9; --border: #e3e8ee; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 800px; padding: 60px 20px; }
+        h1 { font-size: 28px; font-weight: 600; margin-bottom: 10px; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; }
+        button { background-color: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 6px; width: 100%; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: var(--accent-hover); }
+        .status { margin-top: 20px; text-align: center; color: var(--text-sub); font-size: 14px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>Studio Produkcyjne</h1>
-        <p class="subtitle">Automatyzacja dystrybucji treści wideo</p>
-    </header>
-
+    <h1>LUX INTERPRETER</h1>
     <div class="card">
-        <div class="form-group">
-            <label>Tytuł Utworu / Projektu</label>
-            <input type="text" id="projectTitle" placeholder="np. Neon Nights - Synthwave Mix">
-        </div>
-
-        <div class="form-group">
-            <label>Opis Klimatu (Prompt dla AI)</label>
-            <textarea id="aiPrompt" rows="3" placeholder="np. Cyberpunk city, rain, neon lights, slow motion..."></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Plik Audio (Wkrótce)</label>
-            <div class="upload-placeholder">
-                Moduł uploadu plików zostanie zintegrowany w kolejnym etapie.
-            </div>
-        </div>
-
-        <button class="primary-btn" onclick="sendToProduction()">Rozpocznij Produkcję</button>
-    </div>
-
-    <div class="card" style="padding: 20px;">
-        <div class="status-area">
-            <span id="systemStatus"><span class="status-indicator active"></span> System gotowy</span>
-            <span style="font-size: 12px;">Połączono z n8n</span>
-        </div>
+        <label>Rozkaz dla Systemu</label>
+        <input type="text" id="projectTitle" placeholder="np. Stwórz teledysk w stylu Cyberpunk">
+        
+        <button onclick="sendSignal()">WYKONAJ</button>
+        
+        <div class="status" id="systemStatus">System gotowy. Czekam na rozkaz.</div>
     </div>
 </div>
 
 <script>
-    // ADRES TWOJEGO N8N (Ten sam co wcześniej)
+    // ADRES TWOJEGO MÓZGU (N8N)
     const WEBHOOK_URL = "http://172.86.70.47:5678/webhook-test/lux";
 
-    async function sendToProduction() {
+    async function sendSignal() {
         const title = document.getElementById('projectTitle').value;
-        const prompt = document.getElementById('aiPrompt').value;
         const statusLabel = document.getElementById('systemStatus');
-        const indicator = document.querySelector('.status-indicator');
+        
+        if(!title) { alert("Wpisz rozkaz!"); return; }
 
-        if(!title) { alert("Podaj tytuł projektu"); return; }
+        statusLabel.innerText = "Wysyłanie sygnału do n8n...";
 
-        // Zmiana statusu na "Przetwarzanie"
-        statusLabel.innerHTML = 'Wysyłanie zlecenia...';
-        indicator.className = 'status-indicator processing';
+        // MAGIA: Tryb 'no-cors' pozwala ominąć blokady i wysłać sygnał
+        const data = new URLSearchParams();
+        data.append("command", title);
+        data.append("timestamp", new Date().toISOString());
 
         try {
             await fetch(WEBHOOK_URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
-                    type: "video_production",
-                    title: title, 
-                    prompt: prompt,
-                    timestamp: new Date() 
-                })
+                mode: "no-cors", 
+                body: data
             });
-            
-            statusLabel.innerHTML = '<span class="status-indicator active"></span> Zlecenie przyjęte przez n8n';
-            indicator.className = 'status-indicator active';
-            
-            // Tutaj w przyszłości n8n wyśle maila "Zacząłem robić film!"
-            
+            statusLabel.innerText = "POTWIERDZONO: Sygnał wysłany do Bazy.";
         } catch (e) {
-            console.error(e);
-            statusLabel.innerText = "Wysłano (Czekam na potwierdzenie)";
+            statusLabel.innerText = "Błąd: " + e.message;
         }
     }
 </script>
