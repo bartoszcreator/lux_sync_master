@@ -3,228 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUX-0 SYSTEM // CONNECTED</title>
+    <title>Creator Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* --- LUX-0 V4 CONNECTED THEME --- */
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
-
         :root {
-            --bg-main: #050505;
-            --bg-panel: #0e1217;
-            --accent: #00f3ff;
-            --accent-dim: rgba(0, 243, 255, 0.15);
-            --text-bright: #e6edf3;
-            --text-dim: #7d8590;
-            --border: #30363d;
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-main: #1a1f36;
+            --text-sub: #697386;
+            --accent: #635bff; /* Stripe Blurple */
+            --accent-hover: #544dc9;
+            --border: #e3e8ee;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         body {
-            font-family: 'Fira Code', monospace;
-            background-color: var(--bg-main);
-            color: var(--text-bright);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+            padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            min-height: 100vh;
         }
 
-        .wrap {
+        .container {
             width: 100%;
-            max-width: 950px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            max-width: 800px;
+            padding: 60px 20px;
         }
 
-        h1 { 
-            text-align: center; font-size: 1.5rem; margin: 0; letter-spacing: 4px;
-            color: var(--text-bright); text-shadow: 0 0 10px rgba(255,255,255,0.1);
+        header {
+            margin-bottom: 40px;
+            text-align: left;
         }
 
-        h2 {
-            text-align: center; font-size: 0.75rem; color: var(--text-dim);
-            margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: var(--text-main);
         }
 
-        .grid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        p.subtitle {
+            color: var(--text-sub);
+            margin: 0;
+            font-size: 16px;
+        }
 
         .card {
-            background: var(--bg-panel); border: 1px solid var(--border);
-            border-radius: 4px; padding: 15px; position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
-            background: var(--accent); opacity: 0.7;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
         }
 
-        h3 { margin-top: 0; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 5px;}
-
-        input[type="text"] {
-            width: 100%; background: #000; border: 1px solid var(--border); color: var(--accent);
-            padding: 10px 15px; font-family: 'Fira Code', monospace; font-size: 1.1rem;
-            border-radius: 3px; box-sizing: border-box;
+        .form-group {
+            margin-bottom: 24px;
         }
-        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-dim); }
 
-        button {
-            background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim);
-            padding: 8px 16px; font-family: 'Fira Code', monospace; cursor: pointer;
-            font-size: 0.7rem; margin-top: 10px; margin-right: 5px; transition: 0.2s;
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 8px;
         }
-        button:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
-        .data-display { font-size: 0.8rem; line-height: 1.5; color: var(--text-dim); word-break: break-all; }
-        .bit-group { color: var(--accent); margin-right: 8px; }
-        #word { font-size: 1.4rem; color: #fff; font-weight: bold; margin-top: 5px;}
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.15);
+        }
+
+        button.primary-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+
+        button.primary-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .status-area {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-sub);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #e3e8ee;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
         
-        #actionPanel { font-size: 0.9rem; color: var(--accent); letter-spacing: 1px; text-align: center; }
-        
-        /* STATUS POŁĄCZENIA */
-        #networkStatus {
-            font-size: 0.7rem; text-align: right; color: #333; margin-top: 5px;
+        .status-indicator.active { background-color: #3ecf8e; } /* Green */
+        .status-indicator.processing { background-color: #f7b955; } /* Orange */
+
+        /* Placeholder na przyszły upload plików */
+        .upload-placeholder {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            color: var(--text-sub);
+            background: #fcfcfd;
+            cursor: not-allowed; /* Na razie nieaktywne */
         }
     </style>
 </head>
 <body>
 
-<div class="wrap">
-    <div>
-        <h1>LUX-0 SYSTEM</h1>
-        <h2>NEURAL LINK ACTIVE • V4</h2>
-    </div>
+<div class="container">
+    <header>
+        <h1>Studio Produkcyjne</h1>
+        <p class="subtitle">Automatyzacja dystrybucji treści wideo</p>
+    </header>
 
     <div class="card">
-        <h3>Input / Komenda</h3>
-        <input type="text" id="mainInput" placeholder="Wpisz rozkaz..." oninput="processInput()" autofocus>
-        <button onclick="processAsBits()">JAKO BITY</button>
-        <button onclick="processAsWord()">JAKO SŁOWO</button>
-        <button onclick="sendToNeuralLink()" style="border-color: #00ff00; color: #00ff00;">WYŚLIJ DO N8N >></button>
-    </div>
-
-    <div class="grid-row">
-        <div class="card">
-            <h3>Stream Analiza</h3>
-            <div class="data-display" id="timeline">Oczekiwanie...</div>
-            <div style="margin-top:15px; font-size: 0.7rem; color: #555;">FRAMES (5-bit):</div>
-            <div class="data-display" id="frames" style="color: var(--text-bright);">...</div>
+        <div class="form-group">
+            <label>Tytuł Utworu / Projektu</label>
+            <input type="text" id="projectTitle" placeholder="np. Neon Nights - Synthwave Mix">
         </div>
 
-        <div class="card">
-            <h3>Dekoder / Wynik</h3>
-            <div id="word">...</div>
-            <div style="margin-top:10px; border-top: 1px dashed #333; padding-top:5px;" class="data-display" id="letters"></div>
+        <div class="form-group">
+            <label>Opis Klimatu (Prompt dla AI)</label>
+            <textarea id="aiPrompt" rows="3" placeholder="np. Cyberpunk city, rain, neon lights, slow motion..."></textarea>
         </div>
+
+        <div class="form-group">
+            <label>Plik Audio (Wkrótce)</label>
+            <div class="upload-placeholder">
+                Moduł uploadu plików zostanie zintegrowany w kolejnym etapie.
+            </div>
+        </div>
+
+        <button class="primary-btn" onclick="sendToProduction()">Rozpocznij Produkcję</button>
     </div>
 
-    <div class="card" id="statusCard">
-        <h3>System Status & Neural Link</h3>
-        <div id="actionPanel">STANDBY</div>
-        <div id="networkStatus">BRAK TRANSMISJI</div>
+    <div class="card" style="padding: 20px;">
+        <div class="status-area">
+            <span id="systemStatus"><span class="status-indicator active"></span> System gotowy</span>
+            <span style="font-size: 12px;">Połączono z n8n</span>
+        </div>
     </div>
 </div>
 
 <script>
-    const letterToBits = {
-        'a': '00000', 'b': '10010', 'c': '10011', 'd': '01001', 'e': '00001', 'f': '01000', 
-        'g': '01111', 'h': '10001', 'i': '00010', 'j': '10110', 'k': '01011', 'l': '00111',
-        'm': '01100', 'n': '01001', 'o': '10101', 'p': '10111', 'r': '00101', 's': '00110', 
-        't': '01000', 'u': '01101', 'w': '11001', 'y': '01000', 'z': '11001', ' ': '11111'
-    };
-    const bitsToLetter = Object.fromEntries(Object.entries(letterToBits).map(([k, v]) => [v, k]));
-    
-    // ADRES TWOJEGO N8N
+    // ADRES TWOJEGO N8N (Ten sam co wcześniej)
     const WEBHOOK_URL = "http://172.86.70.47:5678/webhook-test/lux";
 
-    function processInput() { }
+    async function sendToProduction() {
+        const title = document.getElementById('projectTitle').value;
+        const prompt = document.getElementById('aiPrompt').value;
+        const statusLabel = document.getElementById('systemStatus');
+        const indicator = document.querySelector('.status-indicator');
 
-    function processAsWord() {
-        let text = document.getElementById('mainInput').value.toLowerCase();
-        let bitStream = "";
-        for (let char of text) { if (letterToBits[char]) bitStream += letterToBits[char]; }
-        visualize(bitStream, text);
-    }
+        if(!title) { alert("Podaj tytuł projektu"); return; }
 
-    function processAsBits() {
-        let raw = document.getElementById('mainInput').value;
-        let bitStream = raw.replace(/[^01]/g, '');
-        let decodedText = "";
-        for (let i = 0; i < bitStream.length; i += 5) {
-            let frame = bitStream.substring(i, i+5);
-            if (frame.length === 5) decodedText += bitsToLetter[frame] ? bitsToLetter[frame] : "?";
-        }
-        visualize(bitStream, decodedText);
-    }
-
-    function visualize(bits, finalWord) {
-        document.getElementById('timeline').innerText = bits.split('').join(' ');
-        
-        let framesHTML = "";
-        for (let i = 0; i < bits.length; i += 5) framesHTML += `<span class="bit-group">${bits.substring(i, i+5)}</span> `;
-        document.getElementById('frames').innerHTML = framesHTML;
-
-        let lettersHTML = "";
-        for (let i = 0; i < bits.length; i += 5) {
-            let chunk = bits.substring(i, i+5);
-            if(chunk.length===5) lettersHTML += `<span>${bitsToLetter[chunk]||"?"}</span> `;
-        }
-        document.getElementById('letters').innerHTML = lettersHTML;
-        document.getElementById('word').innerText = finalWord;
-        applySystemAction(finalWord);
-    }
-
-    function applySystemAction(finalWord) {
-        let panel = document.getElementById('actionPanel');
-        let card = document.getElementById('statusCard');
-        let body = document.body;
-        
-        let actionText = "PRZETWARZANIE...";
-        let bgColor = "#050505";
-        let borderColor = "#30363d";
-
-        if (finalWord === "light") {
-            actionText = ">>> SYSTEM ROZŚWIETLONY <<<";
-            bgColor = "#151b23"; borderColor = "#fff";
-        } else if (finalWord === "dark") {
-            actionText = ">>> PROTOKÓŁ CIEMNOŚCI <<<";
-            bgColor = "#000"; borderColor = "#333";
-        } else if (finalWord === "alert") {
-            actionText = "!!! ALARM !!!";
-            bgColor = "#2a0000"; borderColor = "red";
-        } else {
-            actionText = "GOTOWY DO WYSYŁKI: " + finalWord.toUpperCase();
-        }
-        
-        panel.innerText = actionText;
-        body.style.backgroundColor = bgColor;
-        card.style.borderColor = borderColor;
-    }
-
-    // --- FUNKCJA WYSYŁAJĄCA DO N8N ---
-    async function sendToNeuralLink() {
-        let word = document.getElementById('word').innerText;
-        let status = document.getElementById('networkStatus');
-        
-        if (!word || word === "...") { status.innerText = "BŁĄD: PUSTE DANE"; return; }
-
-        status.innerText = "WYSYŁANIE SYGNAŁU DO N8N...";
-        status.style.color = "#ffff00";
+        // Zmiana statusu na "Przetwarzanie"
+        statusLabel.innerHTML = 'Wysyłanie zlecenia...';
+        indicator.className = 'status-indicator processing';
 
         try {
             await fetch(WEBHOOK_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ command: word, timestamp: new Date() })
+                body: JSON.stringify({ 
+                    type: "video_production",
+                    title: title, 
+                    prompt: prompt,
+                    timestamp: new Date() 
+                })
             });
-            status.innerText = "SUKCES: DANE PRZEJĘTE PRZEZ N8N";
-            status.style.color = "#00ff00";
+            
+            statusLabel.innerHTML = '<span class="status-indicator active"></span> Zlecenie przyjęte przez n8n';
+            indicator.className = 'status-indicator active';
+            
+            // Tutaj w przyszłości n8n wyśle maila "Zacząłem robić film!"
+            
         } catch (e) {
-            status.innerText = "WYSŁANO (BEZ POTWIERDZENIA)"; // CORS często blokuje odpowiedź, ale n8n dostaje dane
-            status.style.color = "#00ff00";
+            console.error(e);
+            statusLabel.innerText = "Wysłano (Czekam na potwierdzenie)";
         }
     }
 </script>
+
 </body>
 </html>
